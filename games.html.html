@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Best Online and Offline Games</title>
+  <style>
+    /* General reset and layout */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #222;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      color: #00f;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      flex-grow: 1;
+    }
+
+    header .logo {
+      position: relative;
+      overflow: hidden;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    header .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    header .logo img:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 15px rgba(255, 99, 71, 0.7));
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    nav ul li {
+      margin: 0 30px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.2em;
+      padding: 10px;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #ff6347;
+    }
+
+    #hero {
+      background: url('gaming-background.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border-bottom: 4px solid #ff6347;
+    }
+
+    .hero-content h1 {
+      font-size: 3.5em;
+      font-family: 'Impact', sans-serif;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-content p {
+      font-size: 1.5em;
+      font-family: 'Courier New', Courier, monospace;
+      margin-top: 20px;
+      letter-spacing: 1px;
+    }
+
+    section {
+      padding: 50px 20px;
+      text-align: center;
+      background-color: #333;
+    }
+
+    #about, #projects, #contact {
+      background-color: #444;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+    }
+
+    #about h2, #projects h2, #contact h2 {
+      font-size: 2.5em;
+      color: #ff6347;
+      margin-bottom: 20px;
+    }
+
+    .project {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 2px solid #ff6347;
+      border-radius: 5px;
+      background-color: #222;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255, 99, 71, 0.5);
+    }
+
+    .project h3 {
+      font-size: 1.8em;
+      color: #fff;
+    }
+
+    .project p {
+      color: #ccc;
+      margin: 10px 0;
+    }
+
+    a {
+      color: #ff6347;
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid #ff6347;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #ff6347;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #222;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* For the smooth scroll button */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff6347;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50%;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      display: none;
+    }
+
+    .scroll-to-top:hover {
+      background-color: #e55347;
+    }
+
+    /* Game Links Section Styling */
+    .game-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .game-link {
+      text-align: center;
+      max-width: 120px;
+      border: 2px solid #ff6347;
+      border-radius: 10px;
+      background-color: #222;
+      padding: 15px;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .game-link:hover {
+      background-color: #ff6347;
+      transform: scale(1.05);
+    }
+
+    .game-link a {
+      display: inline-block;
+      color: #ff6347;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 10px 15px;
+      background-color: #222;
+      border-radius: 5px;
+      border: 2px solid #ff6347;
+      transition: background-color 0.3s ease;
+    }
+
+    .game-link a:hover {
+      background-color: #fff;
+      color: #ff6347;
+    }
+
+    /* Adding Icons to Links */
+    .game-link a::before {
+      content: '🎮';
+      margin-right: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://cdn.vectorstock.com/i/2000v/40/28/gamer-mascot-logo-design-vector-42944028.avif" alt="Logo">
+    </div>
+    <h1>Ceejay David Project</h1>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section id="hero">
+    <div class="hero-content">
+      <h1>Welcome to My Gaming World</h1>
+      <p>Game on, explore my creations and get in touch!</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I'm Ceejay David, a passionate gamer and creator. I specialize in nothing. I love exploring new virtual worlds and creating my own games and mods. I’m always up for a challenge!</p>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="project">
+        <h3>Best offline games: PC/Mobile</h3>
+        <p>Description of a game mod or game you've worked on. A fun challenge that changed the way players interacted with the game.</p>
+        <a href="#">View More</a>
+    </div>
+    <div class="project">
+        <h3>Best online games: PC/Mobile</h3>
+        <p>Check out the links below to download some of my favorite online games!</p>
+        
+        <!-- Game Links Section -->
+        <div class="game-links">
+            <div class="game-link">
+                <a href="https://www.epicgames.com/fortnite" target="_blank">Download Fortnite</a>
+            </div>
+            <div class="game-link">
+                <a href="https://www.callofduty.com/warzone" target="_blank">Download Call of Duty: Warzone</a>
+            </div>
+            <div class="game-link">
+                <a href="https://store.steampowered.com/app/570/Dota_2/" target="_blank">Download Dota 2</a>
+            </div>
+            <div class="game-link">
+                <a href="https://www.smitegame.com/" target="_blank">Download Smite</a>
+            </div>
+            <div class="game-link">
+                <a href="https://worldofwarcraft.com/" target="_blank">Download World of Warcraft</a>
+            </div>
+            <div class="game-link">
+                <a href="https://na.finalfantasyxiv.com/" target="_blank">Download Final Fantasy XIV</a>
+            </div>
+            <div class="game-link">
+                <a href="https://www.swtor.com/" target="_blank">Download Star Wars: The Old Republic</a>
+            </div>
+            <div class="game-link">
+                <a href="https://store.steampowered.com/app/578080/PUBG_BATTLEGROUNDS/" target="_blank">Download PUBG: Battlegrounds</a>
+            </div>
+            <div class="game-link">
+                <a href="https://fallguys.com/" target="_blank">Download Fall Guys</a>
+            </div>
+            <div class="game-link">
+                <a href="https://www.chess.com/" target="_blank">Play Chess.com</a>
+            </div>
+            <div class="game-link">
+                <a href="https://rainbow6.ubisoft.com" target="_blank">Download Rainbow Six Siege</a>
+            </div>
+            <div class="game-link">
+                <a href="https://playoverwatch2.com/" target="_blank">Download Overwatch 2</a>
+            </div>
+            <div class="game-link">
+                <a href="https://www.minecraft.net/en-us" target="_blank">Download Minecraft</a>
+            </div>
+            <div class="game-link">
+                <a href="https://www.firaxis.com/civilization/civ6" target="_blank">Download Civilization VI</a>
+            </div>
+            <div class="game-link">
+                <a href="https://starcraft2.com/en-us/" target="_blank">Download Starcraft II</a>
+            </div>
+            <div class="game-link">
+                <a href="https://survivetheark.com/" target="_blank">Download ARK: Survival Evolved</a>
+            </div>
+            <div class="game-link">
+                <a href="https://www.ea.com/games/fifa/fifa-24" target="_blank">Download FIFA 24</a>
+            </div>
+            <div class="game-link">
+                <a href="https://nba.2k.com/2k24/" target="_blank">Download NBA 2K24</a>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>If you want to team up, share gaming tips, or just chat about the latest releases, feel free to email me at 
+        <a href="mailto:davidceejay57@gmail.com?subject=Hello%20from%20Your%20Website&body=Hi%20David,%20I%20wanted%20to%20contact%20you%20about...">davidceejay57@gmail.com</a>.
+    </p>
+  </section>
+
+  <footer>
+    <p>&copy; 2024 David. All rights reserved.</p>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <button class="scroll-to-top" id="scrollToTopBtn">&#8593;</button>
+
+  <script>
+    // Smooth scroll to sections
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Scroll to top button functionality
+    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+
+    window.onscroll = function() {  
+      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        scrollToTopBtn.style.display = "block";
+      } else {
+        scrollToTopBtn.style.display = "none";
+      }
+    };
+
+    scrollToTopBtn.onclick = function() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    };
+  </script>
+</body>
+</html>
