@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Website with Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .login-button {
+      background-color: #3b5998;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .login-button:hover {
+      background-color: #4e69a2;
+    }
+
+    .buttons-container {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .action-button {
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .action-button:hover {
+      background-color: #0056b3;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Welcome to My Personal Website</h1>
+    <!-- Facebook Login Button -->
+    <div id="fb-root"></div>
+    <div id="status"></div>
+
+    <button class="login-button" id="fb-login-button" onclick="facebookLogin()">Login with Facebook</button>
+
+    <!-- Once logged in, show these buttons -->
+    <div id="after-login" class="hidden">
+      <h3>After Login</h3>
+      <div class="buttons-container">
+        <button class="action-button" onclick="window.location.href='#link1'">Button 1</button>
+        <button class="action-button" onclick="window.location.href='#link2'">Button 2</button>
+        <button class="action-button" onclick="window.location.href='#link3'">Button 3</button>
+        <button class="action-button" onclick="window.location.href='#link4'">Button 4</button>
+        <button class="action-button" onclick="window.location.href='#link5'">Button 5</button>
+        <button class="action-button" onclick="window.location.href='#link6'">Button 6</button>
+        <button class="action-button" onclick="window.location.href='#link7'">Button 7</button>
+        <button class="action-button" onclick="window.location.href='#link8'">Button 8</button>
+        <button class="action-button" onclick="window.location.href='#link9'">Button 9</button>
+        <button class="action-button" onclick="window.location.href='#link10'">Button 10</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Facebook SDK -->
+  <script>
+    // Load the SDK asynchronously
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : 'YOUR_FACEBOOK_APP_ID', // Replace with your Facebook App ID
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v12.0'
+      });
+
+      FB.AppEvents.logPageView();   
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function facebookLogin() {
+      FB.login(function(response) {
+        if (response.authResponse) {
+          console.log('Facebook login successful');
+          document.getElementById('fb-login-button').style.display = 'none'; // Hide login button
+          document.getElementById('after-login').classList.remove('hidden'); // Show post-login content
+        } else {
+          console.log('User cancelled login or did not fully authorize.');
+        }
+      }, {scope: 'public_profile,email'});
+    }
+  </script>
+</body>
+</html>
