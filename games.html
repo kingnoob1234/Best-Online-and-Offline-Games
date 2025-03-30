@@ -1,393 +1,2195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Best Online and Offline Games</title>
-  <style>
-    /* General reset and layout */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Responsive Navbar with Search & Auth</title>
+    
+    <!-- REMIXICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.css">
+    
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FIREBASE SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    
+    <!-- CSS -->
+    <style>
+        /*=============== BASE ===============*/
+        :root {
+            --primary-color: #4a6bff;
+            --primary-dark: #3a5bef;
+            --text-color: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --gray: #ecf0f1;
+            --dark-gray: #bdc3c7;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --error-color: #ff4444;
+            --success-color: #00C851;
+        }
 
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #111;
-      color: #fff;
-      line-height: 1.6;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    header {
-      background-color: #222;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 50px;
-      position: relative;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-    header h1 {
-      font-size: 2.5em;
-      color: #00f;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      flex-grow: 1;
-    }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
 
-    header .logo {
-      position: relative;
-      overflow: hidden;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
+        ul {
+            list-style: none;
+        }
 
-    header .logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease, filter 0.3s ease;
-    }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-    header .logo img:hover {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 15px rgba(255, 99, 71, 0.7));
-    }
+        button {
+            border: none;
+            outline: none;
+            background: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
+        /*=============== REUSABLE CSS CLASSES ===============*/
+        .container {
+            max-width: 1200px;
+            margin-inline: auto;
+            padding-inline: 1.5rem;
+        }
 
-    nav ul li {
-      margin: 0 30px;
-    }
+        .section {
+            padding-block: 5rem;
+        }
 
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.2em;
-      padding: 10px;
-      border-radius: 5px;
-      transition: background 0.3s ease;
-    }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.75rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            transition: var(--transition);
+        }
 
-    nav ul li a:hover {
-      background-color: #ff6347;
-    }
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
 
-    #hero {
-      background: url('gaming-background.jpg') no-repeat center center/cover;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      text-align: center;
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      border-bottom: 4px solid #ff6347;
-    }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+        }
 
-    .hero-content h1 {
-      font-size: 3.5em;
-      font-family: 'Impact', sans-serif;
-      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
-    }
+        .btn-outline {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
 
-    .hero-content p {
-      font-size: 1.5em;
-      font-family: 'Courier New', Courier, monospace;
-      margin-top: 20px;
-      letter-spacing: 1px;
-    }
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
 
-    section {
-      padding: 50px 20px;
-      text-align: center;
-      background-color: #333;
-    }
+        .section__title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
 
-    #about, #projects, #contact {
-      background-color: #444;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-    }
+        .section__title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
 
-    #about h2, #projects h2, #contact h2 {
-      font-size: 2.5em;
-      color: #ff6347;
-      margin-bottom: 20px;
-    }
+        /*=============== HEADER & NAV ===============*/
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
 
-    .project {
-      margin-bottom: 30px;
-      padding: 20px;
-      border: 2px solid #ff6347;
-      border-radius: 5px;
-      background-color: #222;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+        .header.scrolled {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
 
-    .project:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255, 99, 71, 0.5);
-    }
+        .nav {
+            height: 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .project h3 {
-      font-size: 1.8em;
-      color: #fff;
-    }
+        .nav__logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .project p {
-      color: #ccc;
-      margin: 10px 0;
-    }
+        .nav__logo i {
+            font-size: 1.75rem;
+        }
 
-    a {
-      color: #ff6347;
-      text-decoration: none;
-      font-weight: bold;
-      border: 2px solid #ff6347;
-      padding: 10px 20px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
+        .nav__menu {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            padding-block: 4rem 3rem;
+            transition: top 0.4s ease-in-out;
+            z-index: 999;
+        }
 
-    a:hover {
-      background-color: #ff6347;
-      color: white;
-    }
+        .nav__list {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            row-gap: 2.5rem;
+        }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #222;
-      color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
+        .nav__link {
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem;
+        }
 
-    /* Smooth Scroll */
-    html {
-      scroll-behavior: smooth;
-    }
+        .nav__link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
 
-    /* For the smooth scroll button */
-    .scroll-to-top {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #ff6347;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 50%;
-      font-size: 18px;
-      border: none;
-      cursor: pointer;
-      display: none;
-    }
+        .nav__link:hover::after {
+            width: 100%;
+        }
 
-    .scroll-to-top:hover {
-      background-color: #e55347;
-    }
+        .nav__link:hover {
+            color: var(--primary-color);
+        }
 
-    /* Game Links Section Styling */
-    .game-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
+        .nav__actions {
+            display: flex;
+            align-items: center;
+            column-gap: 1.5rem;
+        }
 
-    .game-link {
-      text-align: center;
-      max-width: 120px;
-      border: 2px solid #ff6347;
-      border-radius: 10px;
-      background-color: #222;
-      padding: 15px;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
+        .nav__search,
+        .nav__login,
+        .nav__toggle {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
 
-    .game-link:hover {
-      background-color: #ff6347;
-      transform: scale(1.05);
-    }
+        .nav__search:hover,
+        .nav__login:hover,
+        .nav__toggle:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
 
-    .game-link a {
-      display: inline-block;
-      color: #ff6347;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 10px 15px;
-      background-color: #222;
-      border-radius: 5px;
-      border: 2px solid #ff6347;
-      transition: background-color 0.3s ease;
-    }
+        .nav__close {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.5rem;
+            font-size: 1.75rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
 
-    .game-link a:hover {
-      background-color: #fff;
-      color: #ff6347;
-    }
+        .nav__close:hover {
+            background-color: var(--gray);
+            color: var(--primary-color);
+        }
 
-    /* Adding Icons to Links */
-    .game-link a::before {
-      content: '🎮';
-      margin-right: 10px;
-    }
+        /* Show menu */
+        .show-menu {
+            top: 0;
+        }
 
-  </style>
+        /*=============== SEARCH ===============*/
+        .search {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            padding: 2rem 1.5rem;
+            transition: top 0.4s ease-in-out;
+            z-index: 1001;
+        }
+
+        .search__form {
+            display: flex;
+            align-items: center;
+            column-gap: 0.5rem;
+            background-color: var(--gray);
+            padding-inline: 1.5rem;
+            border-radius: var(--border-radius);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search__icon {
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .search__input {
+            width: 100%;
+            padding-block: 1.25rem;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .search__input::placeholder {
+            color: var(--text-light);
+        }
+
+        .search__close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.75rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+        }
+
+        .search__close:hover {
+            background-color: var(--gray);
+            color: var(--primary-color);
+        }
+
+        /* Show search */
+        .show-search {
+            top: 0;
+        }
+
+        /*=============== LOGIN ===============*/
+        .login {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: grid;
+            place-items: center;
+            transition: top 0.4s ease-in-out;
+            z-index: 1002;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .login__form {
+            position: relative;
+            background-color: var(--white);
+            width: 90%;
+            max-width: 450px;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transform: translateY(-50px);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .login__title {
+            text-align: center;
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .login__group {
+            display: grid;
+            row-gap: 1.75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .login__label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .login__input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--dark-gray);
+            border-radius: var(--border-radius-sm);
+            outline: none;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .login__input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+        }
+
+        .login__signup {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .login__signup a {
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .login__signup a:hover {
+            text-decoration: underline;
+        }
+
+        .login__forgot {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 1.75rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .login__forgot:hover {
+            text-decoration: underline;
+        }
+
+        .login__button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        .login__button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+        }
+
+        .login__social {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .login__social-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .login__social-text::before,
+        .login__social-text::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background-color: var(--dark-gray);
+        }
+
+        .login__social-text::before {
+            left: 0;
+        }
+
+        .login__social-text::after {
+            right: 0;
+        }
+
+        .login__social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .login__social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--gray);
+            color: var(--text-color);
+            font-size: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .login__social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login__social-btn.google {
+            color: #db4437;
+        }
+
+        .login__social-btn.facebook {
+            color: #4267B2;
+        }
+
+        .login__social-btn.twitter {
+            color: #1DA1F2;
+        }
+
+        .login__close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.75rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+        }
+
+        .login__close:hover {
+            background-color: var(--gray);
+            color: var(--primary-color);
+        }
+
+        /* Show login */
+        .show-login {
+            top: 0;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .show-login .login__form {
+            transform: translateY(0);
+        }
+
+        /*=============== SIGNUP ===============*/
+        .signup {
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: grid;
+            place-items: center;
+            transition: top 0.4s ease-in-out;
+            z-index: 1002;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .signup__form {
+            position: relative;
+            background-color: var(--white);
+            width: 90%;
+            max-width: 450px;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            transform: translateY(-50px);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .signup__title {
+            text-align: center;
+            font-size: 1.75rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .signup__group {
+            display: grid;
+            row-gap: 1.75rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .signup__label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .signup__input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 1px solid var(--dark-gray);
+            border-radius: var(--border-radius-sm);
+            outline: none;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .signup__input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+        }
+
+        .signup__login {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .signup__login a {
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .signup__login a:hover {
+            text-decoration: underline;
+        }
+
+        .signup__button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+
+        .signup__button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.3);
+        }
+
+        .signup__close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.75rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+        }
+
+        .signup__close:hover {
+            background-color: var(--gray);
+            color: var(--primary-color);
+        }
+
+        /* Show signup */
+        .show-signup {
+            top: 0;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .show-signup .signup__form {
+            transform: translateY(0);
+        }
+
+        /*=============== AUTH MESSAGES ===============*/
+        .auth-message {
+            padding: 0.75rem 1rem;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
+
+        .auth-message.error {
+            background-color: rgba(255, 68, 68, 0.1);
+            color: var(--error-color);
+            display: block;
+        }
+
+        .auth-message.success {
+            background-color: rgba(0, 200, 81, 0.1);
+            color: var(--success-color);
+            display: block;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /*=============== USER PROFILE ===============*/
+        .user-profile {
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .user-profile__img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .user-profile__name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .user-profile__dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius-sm);
+            padding: 0.75rem 0;
+            min-width: 180px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .user-profile:hover .user-profile__dropdown {
+            display: block;
+        }
+
+        .user-profile__dropdown-item {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: block;
+        }
+
+        .user-profile__dropdown-item:hover {
+            background-color: var(--gray);
+            color: var(--primary-color);
+        }
+
+        /*=============== MAIN ===============*/
+        .hero {
+            padding-top: 6rem;
+            padding-bottom: 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .hero__container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .hero__data {
+            max-width: 600px;
+        }
+
+        .hero__title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            line-height: 1.2;
+        }
+
+        .hero__title span {
+            color: var(--primary-color);
+        }
+
+        .hero__description {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .hero__buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .hero__image img {
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--white);
+        }
+
+        .features__container {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .features__content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .features__card {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .features__card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .features__icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .features__title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .features__description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background-color: var(--gray);
+        }
+
+        .testimonials__container {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .testimonials__content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonials__card {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .testimonials__card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonials__quote {
+            font-style: italic;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .testimonials__quote::before {
+            content: '"';
+            font-size: 3rem;
+            color: var(--primary-color);
+            opacity: 0.2;
+            position: absolute;
+            top: -1rem;
+            left: -1rem;
+        }
+
+        .testimonials__author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .testimonials__author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .testimonials__author-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .testimonials__author-role {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            text-align: center;
+            padding: 4rem 1.5rem;
+            border-radius: var(--border-radius);
+            margin: 3rem auto;
+            max-width: 1000px;
+        }
+
+        .cta__title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta__description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-inline: auto;
+        }
+
+        .cta__button {
+            background-color: var(--white);
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 0.9rem 2.5rem;
+            border-radius: var(--border-radius-sm);
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .cta__button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #2c3e50;
+            color: var(--white);
+            padding-block: 4rem 2rem;
+        }
+
+        .footer__container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer__logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .footer__description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .footer__social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .footer__social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: var(--white);
+            font-size: 1.25rem;
+        }
+
+        .footer__social-link:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer__title {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer__title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer__links {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .footer__link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+        }
+
+        .footer__link:hover {
+            color: var(--white);
+            transform: translateX(5px);
+        }
+
+        .footer__info {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer__info i {
+            font-size: 1.1rem;
+        }
+
+        .footer__copy {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /*=============== SCROLL UP ===============*/
+        .scrollup {
+            position: fixed;
+            right: 1rem;
+            bottom: -50%;
+            background-color: var(--primary-color);
+            color: var(--white);
+            box-shadow: 0 4px 12px hsla(0, 0%, 20%, 0.1);
+            display: inline-flex;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 1.25rem;
+            z-index: 100;
+            transition: bottom 0.3s, transform 0.3s;
+        }
+
+        .scrollup:hover {
+            transform: translateY(-0.5rem);
+            background-color: var(--primary-dark);
+        }
+
+        /* Show Scroll Up */
+        .show-scroll {
+            bottom: 3rem;
+        }
+
+        /*=============== SCROLL BAR ===============*/
+        ::-webkit-scrollbar {
+            width: 0.6rem;
+            background-color: hsl(0, 0%, 90%);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: hsl(0, 0%, 80%);
+            border-radius: 0.5rem;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--primary-color);
+        }
+
+        /*=============== BREAKPOINTS ===============*/
+        /* For small devices */
+        @media screen and (max-width: 320px) {
+            .nav__actions {
+                column-gap: 1rem;
+            }
+            
+            .hero__buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .hero__buttons .btn {
+                width: 100%;
+            }
+        }
+
+        /* For medium devices */
+        @media screen and (min-width: 576px) {
+            .search__form {
+                max-width: 600px;
+                margin-inline: auto;
+            }
+            
+            .hero__title {
+                font-size: 3rem;
+            }
+        }
+
+        /* For large devices */
+        @media screen and (min-width: 768px) {
+            .nav {
+                height: 5rem;
+            }
+            
+            .nav__menu {
+                position: static;
+                width: auto;
+                padding: 0;
+                box-shadow: none;
+                background-color: transparent;
+            }
+            
+            .nav__list {
+                flex-direction: row;
+                column-gap: 2.5rem;
+            }
+            
+            .nav__toggle,
+            .nav__close {
+                display: none;
+            }
+            
+            .login__form,
+            .signup__form {
+                padding: 3.5rem;
+            }
+            
+            .hero__container {
+                flex-direction: row;
+                text-align: left;
+            }
+            
+            .hero__data {
+                max-width: 500px;
+            }
+            
+            .hero__buttons {
+                justify-content: flex-start;
+            }
+            
+            .hero__image {
+                order: 1;
+            }
+            
+            .features__content {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .user-profile {
+                display: flex;
+            }
+        }
+
+        /* For larger devices */
+        @media screen and (min-width: 992px) {
+            .section {
+                padding-block: 7rem;
+            }
+            
+            .hero {
+                padding-top: 8rem;
+            }
+            
+            .hero__title {
+                font-size: 3.5rem;
+            }
+            
+            .features__content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <img src="https://cdn.vectorstock.com/i/2000v/40/28/gamer-mascot-logo-design-vector-42944028.avif" alt="Logo">
-    </div>
-    <h1>Ceejay David Project</h1>
-    <nav>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+    <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo">
+                <i class="ri-palette-line"></i> DesignHub
+            </a>
 
-  <section id="hero">
-    <div class="hero-content">
-      <h1>Welcome to My Gaming World</h1>
-      <p>Game on, explore my creations and get in touch!</p>
-    </div>
-  </section>
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#home" class="nav__link">Home</a>
+                    </li>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I'm Ceejay David, a passionate gamer and creator. I specialize in nothing. I love exploring new virtual worlds and creating my own games and mods. I’m always up for a challenge!</p>
-  </section>
+                    <li class="nav__item">
+                        <a href="#features" class="nav__link">Features</a>
+                    </li>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="project">
-        <h3>Best offline games: PC/Mobile</h3>
-        <p>Description of a game mod or game you've worked on. A fun challenge that changed the way players interacted with the game.</p>
-        <a href="#">View More</a>
+                    <li class="nav__item">
+                        <a href="#testimonials" class="nav__link">Testimonials</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="#" class="nav__link">Pricing</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="#" class="nav__link">Contact</a>
+                    </li>
+                </ul>
+
+                <!-- Close button -->
+                <div class="nav__close" id="nav-close">
+                    <i class="ri-close-line"></i>
+                </div>
+            </div>
+
+            <div class="nav__actions">
+                <!-- Search button -->
+                <i class="ri-search-line nav__search" id="search-btn"></i>
+
+                <!-- Login button (hidden when logged in) -->
+                <i class="ri-user-line nav__login" id="login-btn"></i>
+
+                <!-- User profile (shown when logged in) -->
+                <div class="user-profile" id="user-profile">
+                    <img src="https://www.gravatar.com/avatar/default?s=200" alt="User" class="user-profile__img" id="user-avatar">
+                    <span class="user-profile__name" id="user-name">User</span>
+                    <div class="user-profile__dropdown">
+                        <a href="#" class="user-profile__dropdown-item" id="profile-link">
+                            <i class="ri-user-line"></i> Profile
+                        </a>
+                        <a href="#" class="user-profile__dropdown-item" id="settings-link">
+                            <i class="ri-settings-3-line"></i> Settings
+                        </a>
+                        <a href="#" class="user-profile__dropdown-item" id="logout-link">
+                            <i class="ri-logout-box-r-line"></i> Logout
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Toggle button -->
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!--==================== SEARCH ====================-->
+    <div class="search" id="search">
+        <form action="" class="search__form">
+            <i class="ri-search-line search__icon"></i>
+            <input type="search" placeholder="Search for designs, templates, or resources..." class="search__input">
+        </form>
+
+        <i class="ri-close-line search__close" id="search-close"></i>
     </div>
-    <div class="project">
-        <h3>Best online games: PC/Mobile</h3>
-        <p>Check out the links below to download some of my favorite online games!</p>
-        
-        <!-- Game Links Section -->
-        <div class="game-links">
-            <div class="game-link">
-                <a href="https://www.epicgames.com/fortnite" target="_blank">Download Fortnite</a>
+
+    <!--==================== LOGIN ====================-->
+    <div class="login" id="login">
+        <form action="" class="login__form" id="login-form">
+            <h2 class="login__title">Welcome Back</h2>
+            
+            <div class="auth-message" id="login-message"></div>
+            
+            <div class="login__group">
+                <div>
+                    <label for="email" class="login__label">Email</label>
+                    <input type="email" placeholder="Enter your email" id="login-email" class="login__input" required>
+                </div>
+                
+                <div>
+                    <label for="password" class="login__label">Password</label>
+                    <input type="password" placeholder="Enter your password" id="login-password" class="login__input" required>
+                </div>
             </div>
-            <div class="game-link">
-                <a href="https://www.callofduty.com/warzone" target="_blank">Download Call of Duty: Warzone</a>
+
+            <div>
+                <p class="login__signup">
+                    Don't have an account? <a href="#" id="signup-link">Sign up</a>
+                </p>
+    
+                <a href="#" class="login__forgot" id="forgot-password-link">
+                    Forgot your password?
+                </a>
+    
+                <button type="submit" class="login__button" id="login-button">
+                    <span class="spinner" id="login-spinner"></span>
+                    <span id="login-button-text">Log In</span>
+                </button>
             </div>
-            <div class="game-link">
-                <a href="https://store.steampowered.com/app/570/Dota_2/" target="_blank">Download Dota 2</a>
+
+            <div class="login__social">
+                <p class="login__social-text">Or continue with</p>
+                <div class="login__social-buttons">
+                    <button type="button" class="login__social-btn google" id="google-login">
+                        <i class="ri-google-fill"></i>
+                    </button>
+                    <button type="button" class="login__social-btn facebook" id="facebook-login">
+                        <i class="ri-facebook-fill"></i>
+                    </button>
+                    <button type="button" class="login__social-btn twitter" id="twitter-login">
+                        <i class="ri-twitter-fill"></i>
+                    </button>
+                </div>
             </div>
-            <div class="game-link">
-                <a href="https://www.smitegame.com/" target="_blank">Download Smite</a>
+        </form>
+
+        <i class="ri-close-line login__close" id="login-close"></i>
+    </div>
+
+    <!--==================== SIGNUP ====================-->
+    <div class="signup" id="signup">
+        <form action="" class="signup__form" id="signup-form">
+            <h2 class="signup__title">Create Account</h2>
+            
+            <div class="auth-message" id="signup-message"></div>
+            
+            <div class="signup__group">
+                <div>
+                    <label for="signup-name" class="signup__label">Full Name</label>
+                    <input type="text" placeholder="Enter your full name" id="signup-name" class="signup__input" required>
+                </div>
+                
+                <div>
+                    <label for="signup-email" class="signup__label">Email</label>
+                    <input type="email" placeholder="Enter your email" id="signup-email" class="signup__input" required>
+                </div>
+                
+                <div>
+                    <label for="signup-password" class="signup__label">Password</label>
+                    <input type="password" placeholder="Create a password (min 6 characters)" id="signup-password" class="signup__input" minlength="6" required>
+                </div>
+                
+                <div>
+                    <label for="signup-confirm" class="signup__label">Confirm Password</label>
+                    <input type="password" placeholder="Confirm your password" id="signup-confirm" class="signup__input" minlength="6" required>
+                </div>
             </div>
-            <div class="game-link">
-                <a href="https://worldofwarcraft.com/" target="_blank">Download World of Warcraft</a>
+
+            <div>
+                <p class="signup__login">
+                    Already have an account? <a href="#" id="login-link">Log in</a>
+                </p>
+    
+                <button type="submit" class="signup__button" id="signup-button">
+                    <span class="spinner" id="signup-spinner"></span>
+                    <span id="signup-button-text">Sign Up</span>
+                </button>
             </div>
-            <div class="game-link">
-                <a href="https://na.finalfantasyxiv.com/" target="_blank">Download Final Fantasy XIV</a>
+
+            <div class="login__social">
+                <p class="login__social-text">Or sign up with</p>
+                <div class="login__social-buttons">
+                    <button type="button" class="login__social-btn google" id="google-signup">
+                        <i class="ri-google-fill"></i>
+                    </button>
+                    <button type="button" class="login__social-btn facebook" id="facebook-signup">
+                        <i class="ri-facebook-fill"></i>
+                    </button>
+                    <button type="button" class="login__social-btn twitter" id="twitter-signup">
+                        <i class="ri-twitter-fill"></i>
+                    </button>
+                </div>
             </div>
-            <div class="game-link">
-                <a href="https://www.swtor.com/" target="_blank">Download Star Wars: The Old Republic</a>
+        </form>
+
+        <i class="ri-close-line signup__close" id="signup-close"></i>
+    </div>
+
+    <!--==================== PASSWORD RESET ====================-->
+    <div class="login" id="forgot-password">
+        <form action="" class="login__form" id="reset-form">
+            <h2 class="login__title">Reset Password</h2>
+            
+            <div class="auth-message" id="reset-message"></div>
+            
+            <div class="login__group">
+                <div>
+                    <label for="reset-email" class="login__label">Email</label>
+                    <input type="email" placeholder="Enter your email" id="reset-email" class="login__input" required>
+                </div>
             </div>
-            <div class="game-link">
-                <a href="https://store.steampowered.com/app/578080/PUBG_BATTLEGROUNDS/" target="_blank">Download PUBG: Battlegrounds</a>
+
+            <div>
+                <button type="submit" class="login__button" id="reset-button">
+                    <span class="spinner" id="reset-spinner"></span>
+                    <span id="reset-button-text">Send Reset Link</span>
+                </button>
+                
+                <p class="login__signup" style="margin-top: 1.5rem;">
+                    Remember your password? <a href="#" id="back-to-login">Log in</a>
+                </p>
             </div>
-            <div class="game-link">
-                <a href="https://fallguys.com/" target="_blank">Download Fall Guys</a>
+        </form>
+
+        <i class="ri-close-line login__close" id="reset-close"></i>
+    </div>
+
+    <!--==================== MAIN ====================-->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero section" id="home">
+            <div class="hero__container container">
+                <div class="hero__data">
+                    <h1 class="hero__title">Create Stunning <span>Designs</span> Faster</h1>
+                    <p class="hero__description">
+                        The all-in-one design platform for professionals. Access thousands of templates, assets, and tools to bring your creative vision to life.
+                    </p>
+                    <div class="hero__buttons">
+                        <a href="#" class="btn btn-primary" id="hero-get-started">Get Started</a>
+                        <a href="#" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                <div class="hero__image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Design workspace">
+                </div>
             </div>
-            <div class="game-link">
-                <a href="https://www.chess.com/" target="_blank">Play Chess.com</a>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features section" id="features">
+            <div class="features__container container">
+                <h2 class="section__title">Amazing Features</h2>
+                <div class="features__content">
+                    <div class="features__card">
+                        <div class="features__icon">
+                            <i class="ri-palette-line"></i>
+                        </div>
+                        <h3 class="features__title">Creative Tools</h3>
+                        <p class="features__description">
+                            Access our powerful suite of design tools to create professional-grade graphics, illustrations, and more.
+                        </p>
+                    </div>
+                    <div class="features__card">
+                        <div class="features__icon">
+                            <i class="ri-team-line"></i>
+                        </div>
+                        <h3 class="features__title">Collaboration</h3>
+                        <p class="features__description">
+                            Work seamlessly with your team in real-time, with version control and commenting features.
+                        </p>
+                    </div>
+                    <div class="features__card">
+                        <div class="features__icon">
+                            <i class="ri-cloud-line"></i>
+                        </div>
+                        <h3 class="features__title">Cloud Storage</h3>
+                        <p class="features__description">
+                            All your designs are safely stored in the cloud, accessible from anywhere on any device.
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="game-link">
-                <a href="https://rainbow6.ubisoft.com" target="_blank">Download Rainbow Six Siege</a>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials section" id="testimonials">
+            <div class="testimonials__container container">
+                <h2 class="section__title">What Our Users Say</h2>
+                <div class="testimonials__content">
+                    <div class="testimonials__card">
+                        <p class="testimonials__quote">
+                            This platform has completely transformed my design workflow. I can create professional designs in half the time it used to take me.
+                        </p>
+                        <div class="testimonials__author">
+                            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah Johnson" class="testimonials__author-img">
+                            <div>
+                                <h4 class="testimonials__author-name">Sarah Johnson</h4>
+                                <p class="testimonials__author-role">Graphic Designer</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonials__card">
+                        <p class="testimonials__quote">
+                            The collaboration features are game-changing for our remote team. We can now work together as if we're in the same room.
+                        </p>
+                        <div class="testimonials__author">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen" class="testimonials__author-img">
+                            <div>
+                                <h4 class="testimonials__author-name">Michael Chen</h4>
+                                <p class="testimonials__author-role">Creative Director</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonials__card">
+                        <p class="testimonials__quote">
+                            As a small business owner, this gives me access to design capabilities I could never afford otherwise. It's been a game-changer.
+                        </p>
+                        <div class="testimonials__author">
+                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Emma Rodriguez" class="testimonials__author-img">
+                            <div>
+                                <h4 class="testimonials__author-name">Emma Rodriguez</h4>
+                                <p class="testimonials__author-role">Small Business Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="game-link">
-                <a href="https://playoverwatch2.com/" target="_blank">Download Overwatch 2</a>
-            </div>
-            <div class="game-link">
-                <a href="https://www.minecraft.net/en-us" target="_blank">Download Minecraft</a>
-            </div>
-            <div class="game-link">
-                <a href="https://www.firaxis.com/civilization/civ6" target="_blank">Download Civilization VI</a>
-            </div>
-            <div class="game-link">
-                <a href="https://starcraft2.com/en-us/" target="_blank">Download Starcraft II</a>
-            </div>
-            <div class="game-link">
-                <a href="https://survivetheark.com/" target="_blank">Download ARK: Survival Evolved</a>
-            </div>
-            <div class="game-link">
-                <a href="https://www.ea.com/games/fifa/fifa-24" target="_blank">Download FIFA 24</a>
-            </div>
-            <div class="game-link">
-                <a href="https://nba.2k.com/2k24/" target="_blank">Download NBA 2K24</a>
+        </section>
+
+        <!-- CTA Section -->
+        <div class="container">
+            <div class="cta">
+                <h2 class="cta__title">Ready to Transform Your Design Process?</h2>
+                <p class="cta__description">
+                    Join thousands of creatives who are already creating amazing designs faster than ever before.
+                </p>
+                <a href="#" class="cta__button" id="cta-button">Start Your Free Trial</a>
             </div>
         </div>
-    </div>
-  </section>
+    </main>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>If you want to team up, share gaming tips, or just chat about the latest releases, feel free to email me at 
-        <a href="mailto:davidceejay57@gmail.com?subject=Hello%20from%20Your%20Website&body=Hi%20David,%20I%20wanted%20to%20contact%20you%20about...">davidceejay57@gmail.com</a>.
-    </p>
-  </section>
+    <!--==================== FOOTER ====================-->
+    <footer class="footer">
+        <div class="footer__container container">
+            <div class="footer__content">
+                <a href="#" class="footer__logo">
+                    <i class="ri-palette-line"></i> DesignHub
+                </a>
+                <p class="footer__description">
+                    The ultimate design platform for creative professionals and teams.
+                </p>
+                <div class="footer__social">
+                    <a href="#" class="footer__social-link">
+                        <i class="ri-facebook-fill"></i>
+                    </a>
+                    <a href="#" class="footer__social-link">
+                        <i class="ri-twitter-fill"></i>
+                    </a>
+                    <a href="#" class="footer__social-link">
+                        <i class="ri-instagram-line"></i>
+                    </a>
+                    <a href="#" class="footer__social-link">
+                        <i class="ri-linkedin-fill"></i>
+                    </a>
+                </div>
+            </div>
 
-  <footer>
-    <p>&copy; 2024 David. All rights reserved.</p>
-  </footer>
+            <div class="footer__content">
+                <h3 class="footer__title">Company</h3>
+                <ul class="footer__links">
+                    <li>
+                        <a href="#" class="footer__link">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Careers</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Blog</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Pricing</a>
+                    </li>
+                </ul>
+            </div>
 
-  <!-- Scroll to top button -->
-  <button class="scroll-to-top" id="scrollToTopBtn">&#8593;</button>
+            <div class="footer__content">
+                <h3 class="footer__title">Product</h3>
+                <ul class="footer__links">
+                    <li>
+                        <a href="#" class="footer__link">Features</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Integrations</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Updates</a>
+                    </li>
+                    <li>
+                        <a href="#" class="footer__link">Roadmap</a>
+                    </li>
+                </ul>
+            </div>
 
-  <script>
-    // Smooth scroll to sections
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
+            <div class="footer__content">
+                <h3 class="footer__title">Contact</h3>
+                <div class="footer__info">
+                    <i class="ri-map-pin-line"></i>
+                    <span>123 Design Street, Creative City</span>
+                </div>
+                <div class="footer__info">
+                    <i class="ri-mail-line"></i>
+                    <span>hello@designhub.com</span>
+                </div>
+                <div class="footer__info">
+                    <i class="ri-phone-line"></i>
+                    <span>+1 (555) 123-4567</span>
+                </div>
+            </div>
+        </div>
+
+        <p class="footer__copy">
+            &#169; 2023 DesignHub. All rights reserved.
+        </p>
+    </footer>
+
+    <!--==================== SCROLL UP ====================-->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="ri-arrow-up-line"></i>
+    </a>
+    
+    <!--=============== MAIN JS ===============-->
+    <script>
+        // Firebase configuration (replace with your own)
+        if (window.location.protocol === 'file:') {
+      document.body.innerHTML = `
+        <h2>Error: Unsupported Protocol</h2>
+        <p>Please run this application through a local web server:</p>
+        <ul>
+          <li>VS Code with Live Server extension</li>
+          <li><code>python -m http.server 8000</code></li>
+          <li><code>npx http-server</code></li>
+        </ul>
+      `;
+    } else 
+      // Initialize Firebase
+      const firebaseConfig = {
+            apiKey: "AIzaSyDm0Ts-2KS-bn3j_bSJ5SthcZQ3CPUCsf4",
+            authDomain: "retro-2bb30.firebaseapp.com",
+            projectId: "project-506369298057",
+            storageBucket: "retro-2bb30.firebasestorage.app",
+            messagingSenderId: "506369298057",
+            appId: "1:506369298057:web:bf96675863515f1d950058"
+        };
+
+      try {
+        firebase.initializeApp(firebaseConfig);
+        
+        // Set up Google auth
+        document.getElementById('googleLogin').addEventListener('click', () => {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+              console.log("Logged in user:", result.user);
+              alert(`Welcome ${result.user.displayName}!`);
+            })
+            .catch((error) => {
+              console.error("Login error:", error);
+              alert("Login failed: " + error.message);
+            });
         });
-      });
-    });
+        
+      } catch (e) {
+        console.error("Firebase initialization error:", e);
+        document.body.innerHTML = `
+          <h2>Firebase Initialization Error</h2>
+          <p>${e.message}</p>
+          <p>Please check your Firebase configuration and ensure you're using HTTPS in production.</p>
+        `;
 
-    // Scroll to top button functionality
-    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const providerGoogle = new firebase.auth.GoogleAuthProvider();
+        const providerFacebook = new firebase.auth.FacebookAuthProvider();
+        const providerTwitter = new firebase.auth.TwitterAuthProvider();
 
-    window.onscroll = function() {  
-      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-        scrollToTopBtn.style.display = "block";
-      } else {
-        scrollToTopBtn.style.display = "none";
-      }
-    };
+        /*=============== SHOW MENU ===============*/
+        const navMenu = document.getElementById('nav-menu'),
+              navToggle = document.getElementById('nav-toggle'),
+              navClose = document.getElementById('nav-close')
 
-    scrollToTopBtn.onclick = function() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    };
-  </script>
+        /*===== MENU SHOW =====*/
+        if(navToggle){
+            navToggle.addEventListener('click', () =>{
+                navMenu.classList.add('show-menu')
+            })
+        }
+
+        /*===== MENU HIDDEN =====*/
+        if(navClose){
+            navClose.addEventListener('click', () =>{
+                navMenu.classList.remove('show-menu')
+            })
+        }
+
+        /*=============== SEARCH ===============*/
+        const search = document.getElementById('search'),
+              searchBtn = document.getElementById('search-btn'),
+              searchClose = document.getElementById('search-close')
+
+        /*===== SEARCH SHOW =====*/
+        if(searchBtn){
+            searchBtn.addEventListener('click', () =>{
+                search.classList.add('show-search')
+            })
+        }
+
+        /*===== SEARCH HIDDEN =====*/
+        if(searchClose){
+            searchClose.addEventListener('click', () =>{
+                search.classList.remove('show-search')
+            })
+        }
+
+        /*=============== LOGIN ===============*/
+        const login = document.getElementById('login'),
+              loginBtn = document.getElementById('login-btn'),
+              loginClose = document.getElementById('login-close'),
+              signupLink = document.getElementById('signup-link'),
+              loginForm = document.getElementById('login-form'),
+              loginEmail = document.getElementById('login-email'),
+              loginPassword = document.getElementById('login-password'),
+              loginButton = document.getElementById('login-button'),
+              loginSpinner = document.getElementById('login-spinner'),
+              loginButtonText = document.getElementById('login-button-text'),
+              loginMessage = document.getElementById('login-message'),
+              googleLoginBtn = document.getElementById('google-login'),
+              facebookLoginBtn = document.getElementById('facebook-login'),
+              twitterLoginBtn = document.getElementById('twitter-login')
+
+        /*===== LOGIN SHOW =====*/
+        if(loginBtn){
+            loginBtn.addEventListener('click', () =>{
+                login.classList.add('show-login')
+            })
+        }
+
+        /*===== LOGIN HIDDEN =====*/
+        if(loginClose){
+            loginClose.addEventListener('click', () =>{
+                login.classList.remove('show-login')
+                loginMessage.textContent = '';
+                loginMessage.className = 'auth-message';
+            })
+        }
+
+        /*=============== SIGNUP ===============*/
+        const signup = document.getElementById('signup'),
+              signupClose = document.getElementById('signup-close'),
+              loginLink = document.getElementById('login-link'),
+              signupForm = document.getElementById('signup-form'),
+              signupName = document.getElementById('signup-name'),
+              signupEmail = document.getElementById('signup-email'),
+              signupPassword = document.getElementById('signup-password'),
+              signupConfirm = document.getElementById('signup-confirm'),
+              signupButton = document.getElementById('signup-button'),
+              signupSpinner = document.getElementById('signup-spinner'),
+              signupButtonText = document.getElementById('signup-button-text'),
+              signupMessage = document.getElementById('signup-message'),
+              googleSignupBtn = document.getElementById('google-signup'),
+              facebookSignupBtn = document.getElementById('facebook-signup'),
+              twitterSignupBtn = document.getElementById('twitter-signup')
+
+        /*===== SIGNUP SHOW =====*/
+        if(signupLink){
+            signupLink.addEventListener('click', (e) => {
+                e.preventDefault()
+                login.classList.remove('show-login')
+                signup.classList.add('show-signup')
+            })
+        }
+
+        /*===== SIGNUP HIDDEN =====*/
+        if(signupClose){
+            signupClose.addEventListener('click', () =>{
+                signup.classList.remove('show-signup')
+                signupMessage.textContent = '';
+                signupMessage.className = 'auth-message';
+            })
+        }
+
+        /*===== LOGIN LINK FROM SIGNUP =====*/
+        if(loginLink){
+            loginLink.addEventListener('click', (e) => {
+                e.preventDefault()
+                signup.classList.remove('show-signup')
+                login.classList.add('show-login')
+            })
+        }
+
+        /*=============== PASSWORD RESET ===============*/
+        const forgotPassword = document.getElementById('forgot-password'),
+              forgotPasswordLink = document.getElementById('forgot-password-link'),
+              resetForm = document.getElementById('reset-form'),
+              resetEmail = document.getElementById('reset-email'),
+              resetButton = document.getElementById('reset-button'),
+              resetSpinner = document.getElementById('reset-spinner'),
+              resetButtonText = document.getElementById('reset-button-text'),
+              resetMessage = document.getElementById('reset-message'),
+              backToLogin = document.getElementById('back-to-login'),
+              resetClose = document.getElementById('reset-close')
+
+        /*===== FORGOT PASSWORD SHOW =====*/
+        if(forgotPasswordLink){
+            forgotPasswordLink.addEventListener('click', (e) => {
+                e.preventDefault()
+                login.classList.remove('show-login')
+                forgotPassword.classList.add('show-login')
+            })
+        }
+
+        /*===== BACK TO LOGIN =====*/
+        if(backToLogin){
+            backToLogin.addEventListener('click', (e) => {
+                e.preventDefault()
+                forgotPassword.classList.remove('show-login')
+                login.classList.add('show-login')
+            })
+        }
+
+        /*===== RESET CLOSE =====*/
+        if(resetClose){
+            resetClose.addEventListener('click', () =>{
+                forgotPassword.classList.remove('show-login')
+                resetMessage.textContent = '';
+                resetMessage.className = 'auth-message';
+            })
+        }
+
+        /*=============== USER PROFILE ===============*/
+        const userProfile = document.getElementById('user-profile'),
+              userAvatar = document.getElementById('user-avatar'),
+              userName = document.getElementById('user-name'),
+              logoutLink = document.getElementById('logout-link')
+
+        /*=============== AUTH STATE LISTENER ===============*/
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                // User is signed in
+                userProfile.style.display = 'flex';
+                document.getElementById('login-btn').style.display = 'none';
+                
+                // Update user profile
+                userName.textContent = user.displayName || 'User';
+                userAvatar.src = user.photoURL || 'https://www.gravatar.com/avatar/default?s=200';
+                
+                // Close all auth modals
+                login.classList.remove('show-login');
+                signup.classList.remove('show-signup');
+                forgotPassword.classList.remove('show-login');
+            } else {
+                // User is signed out
+                userProfile.style.display = 'none';
+                document.getElementById('login-btn').style.display = 'block';
+            }
+        });
+
+        /*=============== LOGOUT ===============*/
+        if(logoutLink){
+            logoutLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                auth.signOut().then(() => {
+                    // Sign-out successful
+                    showMessage(loginMessage, 'You have been logged out successfully.', 'success');
+                }).catch((error) => {
+                    // An error happened
+                    showMessage(loginMessage, error.message, 'error');
+                });
+            })
+        }
+
+        /*=============== EMAIL/PASSWORD LOGIN ===============*/
+        if(loginForm){
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const email = loginEmail.value;
+                const password = loginPassword.value;
+                
+                // Show loading state
+                loginButton.disabled = true;
+                loginSpinner.style.display = 'inline-block';
+                loginButtonText.textContent = 'Logging in...';
+                
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Signed in
+                        loginForm.reset();
+                        login.classList.remove('show-login');
+                    })
+                    .catch((error) => {
+                        showMessage(loginMessage, error.message, 'error');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        loginButton.disabled = false;
+                        loginSpinner.style.display = 'none';
+                        loginButtonText.textContent = 'Log In';
+                    });
+            });
+        }
+
+        /*=============== EMAIL/PASSWORD SIGNUP ===============*/
+        if(signupForm){
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = signupName.value;
+                const email = signupEmail.value;
+                const password = signupPassword.value;
+                const confirmPassword = signupConfirm.value;
+                
+                // Validate passwords match
+                if (password !== confirmPassword) {
+                    showMessage(signupMessage, 'Passwords do not match.', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                signupButton.disabled = true;
+                signupSpinner.style.display = 'inline-block';
+                signupButtonText.textContent = 'Signing up...';
+                
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Signed up
+                        return userCredential.user.updateProfile({
+                            displayName: name
+                        });
+                    })
+                    .then(() => {
+                        signupForm.reset();
+                        signup.classList.remove('show-signup');
+                        showMessage(loginMessage, 'Account created successfully! Please log in.', 'success');
+                        login.classList.add('show-login');
+                    })
+                    .catch((error) => {
+                        showMessage(signupMessage, error.message, 'error');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        signupButton.disabled = false;
+                        signupSpinner.style.display = 'none';
+                        signupButtonText.textContent = 'Sign Up';
+                    });
+            });
+        }
+
+        /*=============== PASSWORD RESET ===============*/
+        if(resetForm){
+            resetForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const email = resetEmail.value;
+                
+                // Show loading state
+                resetButton.disabled = true;
+                resetSpinner.style.display = 'inline-block';
+                resetButtonText.textContent = 'Sending...';
+                
+                auth.sendPasswordResetEmail(email)
+                    .then(() => {
+                        showMessage(resetMessage, 'Password reset email sent. Please check your inbox.', 'success');
+                        resetForm.reset();
+                    })
+                    .catch((error) => {
+                        showMessage(resetMessage, error.message, 'error');
+                    })
+                    .finally(() => {
+                        // Reset button state
+                        resetButton.disabled = false;
+                        resetSpinner.style.display = 'none';
+                        resetButtonText.textContent = 'Send Reset Link';
+                    });
+            });
+        }
+
+        /*=============== SOCIAL LOGIN ===============*/
+        // Google Login
+        if(googleLoginBtn){
+            googleLoginBtn.addEventListener('click', () => {
+                socialLogin(providerGoogle, loginMessage);
+            });
+        }
+        
+        if(googleSignupBtn){
+            googleSignupBtn.addEventListener('click', () => {
+                socialLogin(providerGoogle, signupMessage);
+            });
+        }
+        
+        // Facebook Login
+        if(facebookLoginBtn){
+            facebookLoginBtn.addEventListener('click', () => {
+                socialLogin(providerFacebook, loginMessage);
+            });
+        }
+        
+        if(facebookSignupBtn){
+            facebookSignupBtn.addEventListener('click', () => {
+                socialLogin(providerFacebook, signupMessage);
+            });
+        }
+        
+        // Twitter Login
+        if(twitterLoginBtn){
+            twitterLoginBtn.addEventListener('click', () => {
+                socialLogin(providerTwitter, loginMessage);
+            });
+        }
+        
+        if(twitterSignupBtn){
+            twitterSignupBtn.addEventListener('click', () => {
+                socialLogin(providerTwitter, signupMessage);
+            });
+        }
+        
+        // Social login function
+        function socialLogin(provider, messageElement) {
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    // This gives you a Google/Facebook/Twitter Access Token
+                    const credential = result.credential;
+                    const token = credential.accessToken;
+                    
+                    // The signed-in user info
+                    const user = result.user;
+                    
+                    // Close the modal
+                    login.classList.remove('show-login');
+                    signup.classList.remove('show-signup');
+                })
+                .catch((error) => {
+                    // Handle Errors here
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    
+                    showMessage(messageElement, errorMessage, 'error');
+                });
+        }
+
+        /*=============== SHOW MESSAGE FUNCTION ===============*/
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = 'auth-message ' + type;
+            
+            // Scroll to the message
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        /*=============== CTA BUTTONS ===============*/
+        const heroGetStarted = document.getElementById('hero-get-started');
+        const ctaButton = document.getElementById('cta-button');
+        
+        if(heroGetStarted) {
+            heroGetStarted.addEventListener('click', (e) => {
+                e.preventDefault();
+                login.classList.add('show-login');
+            });
+        }
+        
+        if(ctaButton) {
+            ctaButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                login.classList.add('show-login');
+            });
+        }
+
+        /* Close all modals when clicking outside */
+        document.addEventListener('click', (e) => {
+            // Close login modal
+            if(login.classList.contains('show-login') && !e.target.closest('.login__form') && e.target !== loginBtn){
+                login.classList.remove('show-login')
+                loginMessage.textContent = '';
+                loginMessage.className = 'auth-message';
+            }
+            
+            // Close signup modal
+            if(signup.classList.contains('show-signup') && !e.target.closest('.signup__form') && e.target !== signupLink){
+                signup.classList.remove('show-signup')
+                signupMessage.textContent = '';
+                signupMessage.className = 'auth-message';
+            }
+            
+            // Close reset modal
+            if(forgotPassword.classList.contains('show-login') && !e.target.closest('.login__form') && e.target !== forgotPasswordLink){
+                forgotPassword.classList.remove('show-login')
+                resetMessage.textContent = '';
+                resetMessage.className = 'auth-message';
+            }
+            
+            // Close search modal
+            if(search.classList.contains('show-search') && !e.target.closest('.search__form') && e.target !== searchBtn){
+                search.classList.remove('show-search')
+            }
+            
+            // Close menu on mobile when clicking a link
+            if(navMenu.classList.contains('show-menu') && e.target.closest('.nav__link')){
+                navMenu.classList.remove('show-menu')
+            }
+        })
+
+        /*=============== CHANGE BACKGROUND HEADER ===============*/
+        function scrollHeader(){
+            const header = document.getElementById('header')
+            // When the scroll is greater than 50 viewport height, add the scroll-header class
+            if(this.scrollY >= 50) header.classList.add('scrolled'); else header.classList.remove('scrolled')
+        }
+        window.addEventListener('scroll', scrollHeader)
+
+        /*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
+        const sections = document.querySelectorAll('section[id]')
+
+        function scrollActive(){
+            const scrollY = window.pageYOffset
+
+            sections.forEach(current =>{
+                const sectionHeight = current.offsetHeight,
+                      sectionTop = current.offsetTop - 58,
+                      sectionId = current.getAttribute('id')
+
+                if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
+                    document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
+                }else{
+                    document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+                }
+            })
+        }
+        window.addEventListener('scroll', scrollActive)
+
+        /*=============== SHOW SCROLL UP ===============*/ 
+        function scrollUp(){
+            const scrollUp = document.getElementById('scroll-up');
+            // When the scroll is higher than 400 viewport height, add the show-scroll class
+            if(this.scrollY >= 400) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
+        }
+        window.addEventListener('scroll', scrollUp)
+
+        /*=============== SCROLL REVEAL ANIMATION ===============*/
+        const sr = ScrollReveal({
+            origin: 'top',
+            distance: '60px',
+            duration: 2500,
+            delay: 400,
+            // reset: true
+        })
+
+        sr.reveal(`.hero__data, .features__container, .testimonials__container, .footer__container`)
+        sr.reveal(`.hero__image`, {origin: 'right'})
+        sr.reveal(`.features__card`, {interval: 100})
+    </script>
 </body>
 </html>
